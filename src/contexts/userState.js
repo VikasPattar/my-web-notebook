@@ -8,22 +8,59 @@ function UserState({ children }) {
     // let navigate = useNavigate();
 
 
-    let [user, setUser] = useState({
-                    name: "",
-                    email: '',
-                    password: ''
-                });
+    // let [user, setUser] = useState({
+    //     name: "",
+    //     email: '',
+    //     password: ''
+    // });
 
-    
+    let [listUsers, setUserList] = useState([{
+        name : 'vikas',
+        email : 'vikas@gmail.com',
+        password : 'vikas'
+    }]);
 
-    // setState({
-    //     name : 'user1',
-    //     email : 'user1@gmail.com',
-    //     password : 'user1'
-    // })
+    let [islogin, setLogin] = useState(false);
+
+    let [loggedInUser, setLoggedInUser] = useState({
+        name: '',
+        email: ''
+    })
+
+    const addUser = (user) => {
+        setUserList([...listUsers, user])
+    }
+
+    const login = (tuser) => {
+        let found = listUsers.filter((user) =>
+        {return tuser.email === user.email && tuser.password === user.password}
+        )
+        if (found) {
+            console.log('found item : ',found)
+            setLogin(true);
+            setLoggedInUser({
+                name : found[0].name,
+                email : found[0].email
+            });
+           
+        }
+        else {
+            setLoggedInUser({
+                name : '',
+                email : ''
+            })
+            setLogin(false);
+        }
+    }
+
+    const fetchUser = () => {
+        let found = listUsers.filter((user) => user.email === loggedInUser.email)
+        return found[0];
+    }
+
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ islogin, addUser, login, fetchUser, loggedInUser }}>
             {children}
         </UserContext.Provider>
     )

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, Link, useNavigate} from 'react-router-dom';
 // eslint-disable-next-line
 import userContext from "../../contexts/userContext";
@@ -7,22 +7,9 @@ import YourNotes from './yourNotes';
 
 function Dashboard() {
 
-    let { user, setUser } = useContext(userContext);
-
-    const update = () => {
-        setUser((prev) => ({
-            ...prev,
-            name: 'Pavan2',
-            email: "pavan@gmail.com"
-        }))
-    }
-
+    let { fetchUser, loggedInUser } = useContext(userContext);
     const location = useLocation();
     const navigate = useNavigate()
-
-    // useEffect(()=>{
-    //     console.log(location.pathname)
-    // },[location])
 
     let path = {
         createNote : '/dashboard/createnote',
@@ -35,6 +22,16 @@ function Dashboard() {
         default :  <h1>Welcome to user Dashboard</h1>
     }
 
+    let [user, setUser] = useState({
+        name : '',
+        email : ''
+    })
+
+    useEffect(()=>{
+        let fetched = fetchUser();
+        setUser(fetched)
+    },[loggedInUser, fetchUser])
+
     const renderElement = ()=>{
         if(location.pathname === path.createNote) return components.createNote
         if(location.pathname === path.yournotes) return components.yournotes
@@ -45,14 +42,14 @@ function Dashboard() {
         navigate('/dashboard')
     }
 
-    const navigateToHome =()=>{
-        navigate('/')
-    }
+    // const navigateToHome =()=>{
+    //     navigate('/')
+    // }<i className="fa-solid fa-left-long me-3" onClick={navigateToHome}></i>
 
     return (
         <>
         <div className="mx-1 bg-primary mt-1 rounded min-h-100 p-2 text-white d-flex flex-row align-items-center justify-content-between px-3">
-            <h2 className="m-0 px-3" onClick={update}><i className="fa-solid fa-left-long me-3" onClick={navigateToHome}></i>Welcome, {user.name} </h2>
+            <h2 className="m-0 px-3">Welcome, {user.name} </h2>
             <div className="p-1  d-flex flex-row align-items-center me-3 ">
                 <div name="profilePic " style={{ minHeight: "50px", minWidth: "50px" }} className=" rounded-circle bg-dark">
                     <img src="/images/logo192.png" alt="img"  style={{ maxHeight: "50px", maxWidth: "50px" }} className='bg-contain' />
