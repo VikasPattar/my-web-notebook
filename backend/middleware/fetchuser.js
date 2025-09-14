@@ -4,7 +4,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 // const SECRET = "vikas";
 
 const fetchuser = (req, res, next) => {
-    let token = req.cookies.token;
+    let token = req.headers['auth-token'];
 
     if (!token) {
         res.send('Please login again')

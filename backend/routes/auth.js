@@ -1,10 +1,11 @@
 const express = require('express')
+const path = require('path')
 const router = express.Router()
 const User = require('../models/userModel')
 const { body, validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 // const SECRET = "vikas"
 const fetchuser = require('../middleware/fetchuser')
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -24,6 +25,7 @@ router.post('/createuser', [
     }
 
     let { name, email, password } = req.body
+    console.log('request body : ', req.body)
 
     try {
 
@@ -57,34 +59,39 @@ router.post('/login', [
     }
 
     try {
+
+        //extract data sent from the request
         let { email, password } = req.body;
 
+        //find the use in the database
         let user = await User.findOne({ email })
 
+        //if user is not found in the database
         if (!user) {
-            res.send('user not found')
+            res.send({ message: 'user not found' })
         }
 
+        //verify the password 
         let verified = await bcrypt.compare(password, user.password)
-
         if (!verified) {
-            res.send('incorrect password')
+            res.send({ message: 'incorrect password' })
         }
 
-        let data = {
+        let data = {        //data to be encrypted in the token
             id: user._id
         }
 
-        let token = jwt.sign(data, SECRET_KEY)
+        let token = jwt.sign(data, SECRET_KEY)      //token genetarion with jwt
 
-        res.cookie('token', token);
+        // res.cookie('token', token);
 
-        res.json({
-            message: 'user logged in successfully'
+        res.send({
+            message: 'user logged in successfully',
+            token
         })
-
+        
     } catch (error) {
-        res.send('internal server error')
+        res.send({ messag: 'internal server error', error: error.message })
     }
 })
 
@@ -100,7 +107,6 @@ router.get('/fetchuser', fetchuser, async (req, res) => {
         }
 
         res.json({
-            message: 'logged in successfully',
             user
         })
 

@@ -1,48 +1,48 @@
 import { useContext, useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import userContext from '../../contexts/userContext';
 
 function Login() {
 
-    let { login, islogin} = useContext(userContext);
+    let { login, islogin } = useContext(userContext);
     let navigate = useNavigate();
 
     let [user, setUser] = useState({
-        email : "",
-        password : ''
+        email: "",
+        password: ''
     })
-    
-    const change = (e)=>{
+
+    const change = (e) => {
         setUser({
             ...user,
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
-    const clickLogin=(e)=>{
+    const clickLogin = async (e) => {
         e.preventDefault()
-        login(user)
-        if(islogin){
+        let result = await login(user)
+        if (result.success) {
             navigate('/dashboard')
         }
     }
 
     return (
 
-        <div className="card shadow-lg p-4 rounded-3" style={{width : '100%', maxWidth : '400px'}}>
+        <div className="card shadow-lg p-4 rounded-3" style={{ width: '100%', maxWidth: '400px' }}>
             <h2 className="text-center mb-4">Login</h2>
 
             <form action="/login" method="POST">
                 {/* <!-- Email --> */}
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label fw-semibold" >Email address</label>
-                    <input type="email" className="form-control" id="email" placeholder="Enter your email" name="email"  onChange={change} required />
+                    <input type="email" className="form-control" id="email" placeholder="Enter your email" name="email" onChange={change} required />
                 </div>
 
                 {/* <!-- Password --> */}
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label fw-semibold" >Password</label>
-                    <input type="password" className="form-control" id="password" placeholder="Enter your password" name="password"  onChange={change} required />
+                    <input type="password" className="form-control" id="password" placeholder="Enter your password" name="password" onChange={change} required />
                 </div>
 
                 {/* <!-- Submit Button --> */}
