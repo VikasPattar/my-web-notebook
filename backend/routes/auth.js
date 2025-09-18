@@ -103,7 +103,7 @@ router.get('/fetchuser', fetchuser, async (req, res) => {
         let user = await User.findOne({ _id: userId }, ['-password']);
 
         if (!user) {
-            res.send('user not found')
+            res.send({message : 'user not found'})
         }
 
         res.json({
@@ -111,7 +111,7 @@ router.get('/fetchuser', fetchuser, async (req, res) => {
         })
 
     } catch (error) {
-        res.send('internal server error')
+        res.send({message : 'internal server error'})
     }
 })
 

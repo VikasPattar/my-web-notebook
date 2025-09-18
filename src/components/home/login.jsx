@@ -4,7 +4,7 @@ import userContext from '../../contexts/userContext';
 
 function Login() {
 
-    let { login, islogin } = useContext(userContext);
+    let { login } = useContext(userContext);
     let navigate = useNavigate();
 
     let [user, setUser] = useState({

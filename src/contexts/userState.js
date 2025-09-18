@@ -4,10 +4,6 @@ import UserContext from './userContext';
 
 function UserState({ children }) {
 
-    // let location = useLocation();
-    // let navigate = useNavigate();
-
-
     let [user, setUser] = useState({
         
     });
@@ -16,10 +12,11 @@ function UserState({ children }) {
 
     let [islogin, setLogin] = useState(false);
 
-    let [token, setToken] = useState('');
+    let [token, setToken] = useState(()=>{
+        return localStorage.getItem("token") || '';
+    });
 
     const addUser = async (user) => {
-        // setUserList([...listUsers, user])
 
         console.log('in usestate : ', user)
 
@@ -48,8 +45,12 @@ function UserState({ children }) {
         let result = await response.json()
         console.log(result)
         if (result['token']) {
-            setToken(result.token)
+            localStorage.setItem('token', result.token)
+            setToken(()=>{
+                return localStorage.getItem('token')
+            })
             setLogin(true)
+
             return {success : true}
         }
         else return {success : false}
@@ -66,10 +67,9 @@ function UserState({ children }) {
         })
 
         let data = await response.json()
-        console.log(data)
         setLogin(true)
         setUser(data.user)
-        // return data.user
+        return data.user
     }
 
 

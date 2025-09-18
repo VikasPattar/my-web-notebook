@@ -10,40 +10,32 @@ function CreateNote() {
         setNote({ ...note, [e.target.name]: e.target.value })
     }
 
-    useEffect(() => {
-        console.log(note)
-    }, [note])
+    // useEffect(() => {
+    //     console.log(note)
+    // }, [note])
 
-    const getRandomString = (length = 10) => {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = '';
-        for (let i = 0; i < length; i++) {
-            result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        console.log(result)
-        return result;
+    // const getRandomString = (length = 10) => {
+    //     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    //     let result = '';
+    //     for (let i = 0; i < length; i++) {
+    //         result += chars.charAt(Math.floor(Math.random() * chars.length));
+    //     }
+    //     console.log(result)
+    //     return result;
 
-    }
+    // }
 
 
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
         e.preventDefault();
+        
         // setid(getRandomString())
-        let str = getRandomString();
-        let updated = {
-            ...note,
-            id: str
-        }
-        console.log('updated ', updated)
+        // let str = getRandomString();
+        // console.log('updated ', updated)
         // setNote(updated)
-        console.log('added note : ', updated)
-        addNote(updated);
-        setNote({
-            title: '',
-            description: '',
-            tag: '',
-            id: ''
-        })
+        // console.log('added note : ', updated)
+
+        await addNote(note);
 
         alert('note added successfully');
     }

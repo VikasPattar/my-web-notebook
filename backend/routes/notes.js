@@ -17,7 +17,10 @@ router.post('/createnote', fetchuser, async (req, res) => {
             user: userId
         })
 
+        console.log(note)
+
         res.send(note)
+
 
     } catch (error) {
         res.send('internal server error' + `\n ${error}`)
@@ -33,7 +36,7 @@ router.get('/fetchnotes', fetchuser, async (req, res) => {
         let notes = await Note.find({ user: userId })
 
         if (!notes) {
-            res.send('no notes found')
+            res.send({message : 'no notes found'})
         }
 
         res.json({ notes })
@@ -64,7 +67,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
 
         res.json({ updated, update })
     } catch (error) {
-        res.send('internal server error\n' + error)
+        res.send({error : error.message, tag : 'try catch error'})
     }
 
 

@@ -16,8 +16,9 @@ function App() {
 
   return (
     <>
-      <NoteState>
+      
       <UserState>
+        <NoteState>      
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -28,8 +29,9 @@ function App() {
             <Route path="/register" element={<Home />} />
           </Routes>
         </Router>
+        </NoteState>
       </UserState>
-      </NoteState>
+      
     </>
   );
 }

@@ -7,21 +7,21 @@ const fetchuser = (req, res, next) => {
     let token = req.headers['auth-token'];
 
     if (!token) {
-        res.send('Please login again')
+        res.send({message : 'Please login again'})
     }
 
     try {
         let data = jwt.verify(token, SECRET_KEY)
 
         if (!data) {
-            res.send('token is not verified')
+            res.send({message : 'token is not verified'})
         }
 
         req.user = data;
 
         next();
     } catch (error) {
-        res.send(`unable to verify the token\n${error.message}`)
+        res.send({error : error.message})
     }
 }
 
