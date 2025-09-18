@@ -10,10 +10,10 @@ function NoteCard({ note, k }) {
     let navigate = useNavigate();
     let [localNote, setLocalNote] = useState(note);
 
-    // useEffect(() => {
-    //     setLocalNote(note)
-    //     // console.log(note)
-    // }, [])
+    useEffect(() => {
+        setLocalNote(note)
+        // console.log(note)
+    }, [note])
 
     const clickDelete = async (e) => {
         // e.preventDefault()   
@@ -27,7 +27,7 @@ function NoteCard({ note, k }) {
             console.log('id passed : ', note._id)
             console.log('the note to be updated : ', localNote)
             let updated = await editNote(note._id, localNote);
-            setLocalNote(updated)
+            // setLocalNote(updated)
             alert('alert from Notecard.jsx : updated')
         }
         catch (error) {

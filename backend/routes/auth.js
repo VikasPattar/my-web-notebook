@@ -39,7 +39,7 @@ router.post('/createuser', [
 
         res.send(user)
     } catch (error) {
-        res.send(`mongo server error \n${error.message}`)
+        res.send({message : `mongo server error \n${error.message}`})
     }
 
 })

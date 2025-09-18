@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useNavigate} from 'react-router-dom';
 import UserContext from './userContext';
 
@@ -8,7 +8,7 @@ function UserState({ children }) {
         
     });
 
-    const host = 'http://localhost:5000'
+    const host = 'http://localhost:5000' ;
 
     let [islogin, setLogin] = useState(false);
 
@@ -50,6 +50,8 @@ function UserState({ children }) {
                 return localStorage.getItem('token')
             })
             setLogin(true)
+            console.log('token : ', token)
+            // await fetchUser();
 
             return {success : true}
         }
@@ -72,9 +74,16 @@ function UserState({ children }) {
         return data.user
     }
 
+    useEffect(()=>{
+        let fun = async ()=>{
+            await fetchUser();
+        }
+        fun();
+    },[islogin])
+
 
     return (
-        <UserContext.Provider value={{ islogin, addUser, login, fetchUser, user, token }}>
+        <UserContext.Provider value={{ islogin, addUser, login, fetchUser, user, token, setToken, setLogin}}>
             {children}
         </UserContext.Provider>
     )

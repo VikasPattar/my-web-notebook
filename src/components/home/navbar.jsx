@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 
 function Navbar(){
+
     return(
         <div className="mx-1 bg-primary my-2 rounded min-h-100 p-3 text-white d-flex flex-row align-items-end justify-content-between px-3">
             <h2 className="m-0 px-3">My Notebook</h2>

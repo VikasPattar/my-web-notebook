@@ -7,7 +7,7 @@ import YourNotes from './yourNotes';
 
 function Dashboard() {
 
-    let { user, fetchUser, islogin, token} = useContext(userContext);
+    let { user, fetchUser, islogin, token, setToken, setLogin} = useContext(userContext);
     const location = useLocation();
     const navigate = useNavigate()
 
@@ -60,7 +60,8 @@ function Dashboard() {
         }
         fetchtoDash();
         // eslint-disable-next-line
-    },[token])
+        // setLocalUser(user);
+    },[user, token])
     
 
 
@@ -72,6 +73,16 @@ function Dashboard() {
 
     const handleClick = () => {
         navigate('/dashboard')
+    }
+
+    const logout = ()=>{
+        localStorage.removeItem('token');
+        setToken(()=>{
+            return localStorage.getItem('token')
+        })
+        setLogin(false);
+        console.log('logging out')
+        if(!localStorage.getItem('token')) navigate('/login');
     }
 
     // const navigateToHome =()=>{
@@ -91,7 +102,7 @@ function Dashboard() {
                         <div name="email" className=' m-0 p-0 rounded bg-secondary px-1 mt-1' style={{ fontSize: "10px" }}>{localUser.email}</div>
                     </div>
                     <div name="dropdown-icon" className='p-0 m-0 h-full w-full fs-5 '>
-                        <i className="fa-solid fa-angle-down"></i>
+                        <i className="fa-solid fa-angle-down" onClick={logout}></i>
                     </div>
                 </div>
             </div>

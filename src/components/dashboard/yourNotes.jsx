@@ -5,17 +5,19 @@ import NoteCard from './noteCard';
 
 function YourNotes() {
 
-    let { fetchNotes, editNote, deleteNote} = useContext(noteContext);    
+    let { fetchNotes, editNote, deleteNote, listNotes} = useContext(noteContext);    
 
     const [notes, setNotes] = useState([])
 
     useEffect(()=>{
-        const fetch_notes = async()=>{
-            let notes_fetched = await fetchNotes()
-            setNotes(notes_fetched)
-        }
-        fetch_notes()
-    },[editNote, deleteNote])
+        // const fetch_notes = async()=>{
+        //     let notes_fetched = await fetchNotes()
+        //     setNotes(notes_fetched)
+        // }
+        // fetch_notes()
+
+        setNotes(listNotes);
+    },[listNotes])
 
     
     return (

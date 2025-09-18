@@ -23,7 +23,7 @@ router.post('/createnote', fetchuser, async (req, res) => {
 
 
     } catch (error) {
-        res.send('internal server error' + `\n ${error}`)
+        res.send({message : 'internal server error' + `\n ${error.message}`})
     }
 
 })
